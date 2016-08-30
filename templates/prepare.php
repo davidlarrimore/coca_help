@@ -60,7 +60,6 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
               </div>
             </div>
             <p>&nbsp;</p>
-            <p>&nbsp;</p>
             <p class="">Come back here for the latest information on how to get involved</p>
           </div>
         </div>
@@ -78,9 +77,6 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
   <script src="./static/js/jquery.countdown.min.js" type="text/javascript"></script>
 
   <script type="text/javascript">
-    $('div#countdown').countdown("<?php echo $campaignStartDateCountdown;?>", function(event) {
-      $(this).html(event.strftime('%-w weeks %-n days %-H hours %-M minutes %-S seconds'));
-    });
 
     $('[data-countdown]').each(function() {
       var $this = $(this), finalDate = $(this).data('countdown');

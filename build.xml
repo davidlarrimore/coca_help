@@ -6,21 +6,23 @@
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
     <target name="prepare">
-        <echo msg="Making directory ./build" />
+        <echo msg="Preparing ./build directory structure" />
         <mkdir dir="./build" />
+        <mkdir dir="./build/test" />
+        <mkdir dir="./build/test/config" />
+        <mkdir dir="./build/production" />
+        <mkdir dir="./build/production/config" />
     </target>
 
     <!-- ============================================  -->
     <!-- Target: build                                 -->
     <!-- ============================================  -->
     <target name="build" depends="prepare">
-        <echo msg="Copying config to ./build directory..." />
-        <copy todir="./build/config">
-          <fileset dir="config">
-              <include name="**"></include>
-              <exclude name="**/.svn/**"></exclude>
-          </fileset>
-        </copy>
+
+        <echo msg="Copying config files to appropriate directory..." />
+        <copy file="./config/test-config.ini" tofile="./build/test/config/config.ini" />
+        <copy file="./config/prod-config.ini" tofile="./build/production/config/config.ini" />
+
     </target>
 
     <!-- ============================================  -->
@@ -30,18 +32,16 @@
 
 
       <filesync
-        sourcedir="./build/config/"
-        destinationdir="${dev.username}@${dev.hostname}:${dev.documentroot}/config/" />
-
+        sourcedir="./build/test/config"
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/" />
 
       <echo msg="Pushing Dev GIT Updates" />
-      <exec command="ssh ${dev.username}@${dev.hostname} &quot;cd ${dev.documentroot};git pull&quot;" dir="/" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};git pull&quot;" dir="/" />
 
 
       <filesync
-        sourcedir="./build/config/"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/config/" />
-
+        sourcedir="./build/production/config"
+        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/" />
 
       <echo msg="Pushing Production GIT Updates" />
       <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};git pull&quot;" dir="/" />

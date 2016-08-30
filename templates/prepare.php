@@ -42,7 +42,7 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
   <div style="height:16px;">&nbsp;</div>
   <div class="container">
     <div class="row">
-      <div class="col-xs-10 col-xs-offset-1 block" style="text-align:center;">
+      <div class="col-xs-10 col-xs-offset-1" style="text-align:center;">
         <div class="row">
           <div class="col-xs-12">
             <h2 class="superhero">Get ready for the 3rd Annual LRES PTO Superhero Fun Run!!!</h2>
@@ -85,7 +85,7 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
       var $this = $(this), finalDate = $(this).data('countdown');
       $this.countdown(finalDate, function(event) {
         $this.html(event.strftime(''
-    + '<span class="label label-info">%D</span> day%!d &nbsp;&nbsp;'
+    + '<span class="label label-info">%D</span> day%!D &nbsp;&nbsp;'
     + '<span class="label label-info">%H</span> hours &nbsp;&nbsp;'
     + '<span class="label label-info">%M</span> min &nbsp;&nbsp;'
     + '<span class="label label-info">%S</span> sec'));

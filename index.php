@@ -10,6 +10,8 @@ require 'vendor/autoload.php';
 
 date_default_timezone_set('America/New_York');
 
+
+
 /*******************
 * PHP Mailer Setup *
 *******************/
@@ -82,14 +84,16 @@ $app->get('/', function ($request, $response, $args) {
   $this->logger->addInfo("Todays Date: ".$todaysDate);
   //echo($todaysDate);
 
-  //$newformat = date('Y-m-d',$time);
 
   $data = [
             'todays_date' => $todaysDate,
             'campaign_start_date' => $campaignStartDate,
-            'campaign_end_date' => $campaignEndDate
+            'campaign_end_date' => $campaignEndDate,
+            'team_data' => getTeamData()
           ];
 
+
+  //TODO: Make sure that only data necessary is going to the particular views....I.E. File Data
   if ($todaysDate > $campaignEndDate){
     $theView = "closeout.php";
   }elseif ($todaysDate > $campaignStartDate) {
@@ -113,3 +117,45 @@ $app->post('/', function ($request, $response, $args) {
 
 
 $app->run();
+
+function getTeamData(){
+  $dir = new DirectoryIterator('data');
+  foreach ($dir as $fileinfo) {
+      if (!$fileinfo->isDot()) {
+          $thisFileName = $fileinfo->getFilename();
+        if (fnmatch("Teams*.csv",$thisFileName)) {
+          //$app->logger->addInfo("Found Team Data File: ".$thisFileName);
+          $teamFileName = $fileinfo->getFilename();
+        }
+      }
+  }
+
+  if(is_null($teamFileName)){
+      //$this->logger->addError("Could not find Team File");
+  }
+
+  $file = fopen("./data/".$teamFileName,"r");
+  $counter = 0;
+  $teamData = [];
+  $thisRow;
+  $teamLabels;
+
+  while(! feof($file))
+    {
+      $thisRow = fgetcsv($file);
+      $thisRowAsObjects = [];
+      if ($counter == 0){
+        $teamLabels = $thisRow;
+      }else{
+        foreach ($teamLabels as $key => $value) {
+          $thisRowAsObjects[$value] = $thisRow[$key];
+        }
+        array_push($teamData, $thisRowAsObjects);
+      }
+      $counter ++;
+    }
+  fclose($file);
+  //$logger->info("Test");
+
+  return $teamData;
+}

@@ -10,6 +10,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
 <html>
   <head>
+    <base target="_parent" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,37 +40,39 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
   </head>
 <body>
+  <div style="height:16px;">&nbsp;</div>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12" style="text-align:center;">
-        <div class="row">
-          <div class="col-xs-12">
-            <h2 class="superhero">LETS GO!!!!!</h2>
+      <div class="col-xs-8" style="text-align:center;">
+        <h2 class="superhero">Calling all Superheroes!</h2>
+        <p><u>Ready to unleash your child's inner superhero?</u> join the Lake Ridge Elementary School (LRES) Parent Teacher Organization (PTO) for the 3rd annual LRES PTO <strong>Superhero fun run!</strong></p>
+      </div>
+      <div class="col-xs-4" style="text-align:center;">
+        <div class="panel panel-info">
+          <div class="panel-body">
+               <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
           </div>
         </div>
+      </div>
     </div>
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-xs-3 col-xs-offset-9" style="text-align:center;">
-        <div class="row">
-          <div class="col-xs-12">
-             <button class="cv-donate">Donate</button>
-          </div>
-        </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 block" style="text-align:center;">
+      <div class="col-xs-8" style="text-align:center;">
+        <form class="form">
+          <select id="teamPicker" class="form-control">
+            <option value="">Select a Teacher</option>
+            <?php
+              foreach ($team_data as $key => $value) {
+                echo '<option value="'.$value['URL'].'">'.$value['Name'].'</option>';
+              }
+             ?>
+          </select>
+        </form>
         <p>&nbsp;</p>
         <p><strong>The donation drive will end on <u><?php echo $campaignEndDate;?></u></strong></p>
         <div class="row">
-          <div class="col-xs-10 col-xs-offset-1">
-            <div class="panel panel-default">
-              <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -90,7 +93,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
       var $this = $(this), finalDate = $(this).data('countdown');
       $this.countdown(finalDate, function(event) {
         $this.html(event.strftime(''
-    + 'Only <span class="label label-info">%D</span> day%!d left!'));
+    + 'Only <span class="label label-info">%D</span> day%!D left!'));
       });
     });
   </script>
@@ -101,7 +104,18 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
   <script type="text/javascript">
     CV.setDomain("funrun.lrespto.org");
+
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        $( "#teamPicker" ).change(function() {
+          // similar behavior as an HTTP redirect
+          window.location.replace("http://funrun.lrespto.org/team/"+$( "#teamPicker option:selected" ).val());
+        });
+
+    });
   </script>
+
+
 
 </body>
 </html>

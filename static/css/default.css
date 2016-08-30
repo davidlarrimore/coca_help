@@ -27,7 +27,6 @@ body {
 
 .container {
 	width:810px;
-	min-width: 810px;
 }
 
 .block {
@@ -41,5 +40,4 @@ body {
     border-style: solid;
     border-color: rgb(221, 223, 226);
     border-radius: 0px 0px 3px 3px;
-    padding: 12px;
 }

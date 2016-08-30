@@ -39,6 +39,7 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
 
   </head>
 <body>
+  <div style="height:16px;">&nbsp;</div>
   <div class="container">
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 block" style="text-align:center;">

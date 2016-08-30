@@ -60,6 +60,8 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
               </div>
             </div>
             <p>&nbsp;</p>
+            <iframe src="https://player.vimeo.com/video/180177139" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <p>&nbsp;</p>
             <p class="">Come back here for the latest information on how to get involved</p>
           </div>
         </div>

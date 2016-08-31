@@ -69,7 +69,7 @@ $container['logger'] = function ($c) {
 /*****************
 *     ROUTES     *
 *****************/
-$app->get('/', function ($request, $response, $args) {
+$app->any('/', function ($request, $response, $args) {
 
   $campaignStartDateString = strtotime($this->get('settings')['campaign']['campaign_start_date']);
   $campaignStartDate = date('Y-m-d',$campaignStartDateString);
@@ -87,9 +87,9 @@ $app->get('/', function ($request, $response, $args) {
 
   $data = [
             'todays_date' => $todaysDate,
+            'campaign_url' => $this->get('settings')['campaign']['url'],
             'campaign_start_date' => $campaignStartDate,
             'campaign_end_date' => $campaignEndDate,
-            'team_data' => getTeamData()
           ];
 
 
@@ -108,17 +108,10 @@ $app->get('/', function ($request, $response, $args) {
 });
 
 
-/***********************
-* ADDED FOR FB SUPPORT *
-***********************/
-$app->post('/', function ($request, $response, $args) {
-  return $this->response->withRedirect('/');
-});
+$app->any('/api/teams', function ($request, $response, $args) {
+  $this->logger->addInfo("API Teams");
 
 
-$app->run();
-
-function getTeamData(){
   $dir = new DirectoryIterator('data');
   foreach ($dir as $fileinfo) {
       if (!$fileinfo->isDot()) {
@@ -143,19 +136,69 @@ function getTeamData(){
   while(! feof($file))
     {
       $thisRow = fgetcsv($file);
-      $thisRowAsObjects = [];
-      if ($counter == 0){
-        $teamLabels = $thisRow;
-      }else{
-        foreach ($teamLabels as $key => $value) {
-          $thisRowAsObjects[$value] = $thisRow[$key];
+      //Skip Empty Rows
+      if(!empty($thisRow)){
+        $thisRowAsObjects = [];
+        if ($counter == 0){
+          $teamLabels = $thisRow;
+        }else{
+          foreach ($teamLabels as $key => $value) {
+            $thisRowAsObjects[$value] = $thisRow[$key];
+          }
+          array_push($teamData, $thisRowAsObjects);
         }
-        array_push($teamData, $thisRowAsObjects);
       }
       $counter ++;
+
     }
   fclose($file);
   //$logger->info("Test");
 
-  return $teamData;
-}
+
+
+  $data=['author' => 'davidlarrimore@gmail.com', 'version' => .1, 'data' => $teamData];
+  $newResponse = $response->withHeader('Content-type', 'application/json');
+  $newResponse = $newResponse->withJson($data);
+
+  return $newResponse;
+});
+
+$app->any('/api/settings', function ($request, $response, $args) {
+  $this->logger->addInfo("API Settings");
+
+
+  $campaignStartDateString = strtotime($this->get('settings')['campaign']['campaign_start_date']);
+  $campaignStartDate = date('Y-m-d',$campaignStartDateString);
+
+  $campaignEndDateString = strtotime($this->get('settings')['campaign']['campaign_end_date']);
+  $campaignEndDate = date('Y-m-d',$campaignEndDateString);
+
+  $todaysDate = date('Y-m-d');
+
+  $this->logger->addInfo("Start Date: ".$campaignStartDate);
+  $this->logger->addInfo("End Date: ".$campaignEndDate);
+  $this->logger->addInfo("Todays Date: ".$todaysDate);
+  //echo($todaysDate);
+
+
+  $data = ['author' => 'davidlarrimore@gmail.com',
+           'version' => .1,
+            'data' => [
+            'todays_date' => $todaysDate,
+            'campaign_url' => $this->get('settings')['campaign']['url'],
+            'campaign_start_date' => $campaignStartDate,
+            'campaign_end_date' => $campaignEndDate
+          ]];
+
+
+
+  $newResponse = $response->withHeader('Content-type', 'application/json');
+  $newResponse = $newResponse->withJson($data);
+
+  return $newResponse;
+});
+
+
+
+
+$app->run();

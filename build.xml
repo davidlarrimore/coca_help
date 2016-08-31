@@ -48,13 +48,11 @@
 
       <filesync
         sourcedir="./build/test/config"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
-        delete="True" />
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"/>
 
       <filesync
         sourcedir="./build/test/data"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
-        delete="True" />
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"/>
 
       <echo msg="Configuring Test" />
       <exec
@@ -65,13 +63,11 @@
 
       <filesync
         sourcedir="./build/production/config"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"
-        delete="True" />
+        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/" />
 
       <filesync
         sourcedir="./build/production/data"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"
-        delete="True" />
+        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"/>
 
 
         <echo msg="Configuring Production" />

@@ -10,6 +10,11 @@
         "jquery": "*",
         "bootstrap": "*",
         "jquery.countdown": "*",
-        "reset-css": "*"
+        "reset-css": "*",
+        "angular": "*",
+        "angular-bootstrap": "*",
+        "angular-animate": "*",
+        "angular-route": "*",
+        "angular-resource": "*"
     }
 }

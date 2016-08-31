@@ -10,8 +10,10 @@
         <mkdir dir="./build" />
         <mkdir dir="./build/test" />
         <mkdir dir="./build/test/config" />
+        <mkdir dir="./build/test/data" />
         <mkdir dir="./build/production" />
         <mkdir dir="./build/production/config" />
+        <mkdir dir="./build/production/data" />
     </target>
 
     <!-- ============================================  -->
@@ -33,18 +35,32 @@
 
       <filesync
         sourcedir="./build/test/config"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/" />
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
+        delete="True" />
 
-      <echo msg="Pushing Dev GIT Updates" />
-      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};git pull&quot;" dir="/" />
+      <filesync
+        sourcedir="./build/test/data"
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
+        delete="True" />
+
+      <echo msg="Pushing GIT and Composer updates on Test" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install&quot;" dir="/" />
 
 
       <filesync
         sourcedir="./build/production/config"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/" />
+        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"
+        delete="True" />
 
-      <echo msg="Pushing Production GIT Updates" />
-      <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};git pull&quot;" dir="/" />
+      <filesync
+        sourcedir="./build/production/data"
+        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
+        delete="True" />
+
+
+      <echo msg="Running Git and Composer updates on Production" />
+      <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install&quot;" dir="/" />
+
 
 
       <!-- Delete a directory -->

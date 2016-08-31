@@ -3,6 +3,7 @@ vendor/
 build/
 .svn/
 config/
+bower_components/
 logs/
 *.svn
 *.svn-base

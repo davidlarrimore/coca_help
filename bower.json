@@ -1,0 +1,13 @@
+{
+    "name": "FunRunFBApp",
+    "authors": [
+        "Beelab <info@bee-lab.net>",
+        null
+    ],
+    "main": "index.php",
+    "private": true,
+    "dependencies": {
+        "jquery": "*",
+        "bootstrap": "*"
+    }
+}

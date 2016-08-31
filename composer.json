@@ -21,7 +21,8 @@
         "phing/phing": "^2.14",
         "phpunit/php-code-coverage": "^2.2",
         "phpunit/phpunit": "^4.8",
-        "slim/logger": "^0.1.0"
+        "slim/logger": "^0.1.0",
+        "beelab/bowerphp": "^0.4.0"
     },
     "suggest": {
         "ext-mcrypt": "Required for HTTP cookie encryption"

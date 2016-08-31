@@ -64,7 +64,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
             <option value="">Select a Teacher</option>
             <?php
               foreach ($team_data as $key => $value) {
-                echo '<option value="'.$value['URL'].'">'.$value['Name'].'</option>';
+                echo '<option value="'.$value['URL'].'">'.$value["Teacher's Name"].'</option>';
               }
              ?>
           </select>

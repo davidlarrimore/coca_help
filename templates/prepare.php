@@ -16,14 +16,14 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
     <link rel="icon" type="image/x-icon" href="./favicon.ico">
 
     <!-- Reset -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="../bower_components/reset-css/reset.css">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Custom CSS -->
     <link href="./static/css/default.css" rel="stylesheet" type="text/css" />
@@ -71,13 +71,13 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
   </div>
 
   <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js" type="text/javascript"></script>
-
+  <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
   <!-- Bootstrap JS -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
   <!-- Countdown -->
-  <script src="./static/js/jquery.countdown.min.js" type="text/javascript"></script>
+  <script src="../bower_components/jquery.countdown/dist/jquery.countdown.min.js" type="text/javascript"></script>
+  <!-- IE 10 Viewport Bug Fix -->
+  <script src="../static/js/ie10-viewport-bug-workaround.js" type="text/javascript"></script>
 
   <script type="text/javascript">
 

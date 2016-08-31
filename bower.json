@@ -8,6 +8,8 @@
     "private": true,
     "dependencies": {
         "jquery": "*",
-        "bootstrap": "*"
+        "bootstrap": "*",
+        "jquery.countdown": "*",
+        "reset-css": "*"
     }
 }

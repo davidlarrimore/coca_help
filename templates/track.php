@@ -48,6 +48,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
       <div class="col-xs-4" style="text-align:center;">
         <div class="panel panel-info">
           <div class="panel-body">
+            <div class=”cv-progress-bar”></div>
                <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
           </div>
         </div>
@@ -105,6 +106,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
   <!-- CauseVox -->
   <script type="text/javascript" src="//js.causevox.com/v2"></script>
+
 
   <script type="text/javascript">
     CV.setDomain("funrun.lrespto.org");

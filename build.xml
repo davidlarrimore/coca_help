@@ -23,8 +23,10 @@
 
         <echo msg="Copying config files to appropriate directory..." />
         <copy file="./config/test-config.ini" tofile="./build/test/config/config.ini" />
-        <copy file="./config/prod-config.ini" tofile="./build/production/config/config.ini" />
+        <copy file="./config/test-environment.cfg" tofile="./build/test/config/environment.cfg" />
 
+        <copy file="./config/prod-config.ini" tofile="./build/production/config/config.ini" />
+        <copy file="./config/prod-environment.cfg" tofile="./build/production/config/environment.cfg" />
 
         <filesync
           sourcedir="data"
@@ -56,8 +58,8 @@
         destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
         delete="True" />
 
-      <echo msg="Pushing GIT and Composer updates on Test" />
-      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install&quot;" dir="/" />
+      <echo msg="Pushing Deploy Script" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};cd lresptofunrun;sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
 
 
       <filesync
@@ -67,12 +69,12 @@
 
       <filesync
         sourcedir="./build/production/data"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
+        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"
         delete="True" />
 
 
-      <echo msg="Running Git and Composer updates on Production" />
-      <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install&quot;" dir="/" />
+        <echo msg="Pushing Production Deploy Script" />
+        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};cd lresptofunrun;sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
 
       <!-- Delete a directory -->
       <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />

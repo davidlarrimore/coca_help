@@ -58,8 +58,10 @@
         destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"
         delete="True" />
 
-      <echo msg="Pushing Deploy Script" />
-      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
+      <echo msg="Running Scripts" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;git pull > logs/git.log 2>&amp;1 &quot;" dir="/" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;composer install > logs/composer.log 2>&amp;1 &quot;" dir="/" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;vendor/beelab/bowerphp/bin/bowerphp install > logs/bower.log 2>&amp;1 &quot;" dir="/" />
 
 
       <filesync
@@ -74,7 +76,9 @@
 
 
         <echo msg="Pushing Production Deploy Script" />
-        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
+        <exec command="ssh ${teproductionst.username}@${production.hostname} &quot;cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;git pull > logs/git.log 2>&amp;1 &quot;" dir="/" />
+        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;composer install > logs/composer.log 2>&amp;1 &quot;" dir="/" />
+        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey} ;vendor/beelab/bowerphp/bin/bowerphp install > logs/bower.log 2>&amp;1 &quot;" dir="/" />
 
       <!-- Delete a directory -->
       <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />

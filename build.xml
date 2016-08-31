@@ -61,8 +61,6 @@
       <echo msg="Running Git and Composer updates on Production" />
       <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install&quot;" dir="/" />
 
-
-
       <!-- Delete a directory -->
       <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
 

@@ -58,17 +58,21 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
     <div class="row">
       <div class="col-xs-8" style="text-align:center;">
         <form class="form">
+          <div class="input-group">
           <select id="teamPicker" class="form-control">
             <option value="">Select a Teacher</option>
             <?php
               foreach ($team_data as $key => $value) {
-                echo '<option value="'.$value['URL'].'">'.$value["Teacher's Name"].'</option>';
+                echo '<option value="team/'.$value['URL'].'">'.$value["Teacher's Name"].'</option>';
               }
              ?>
-          </select>
+            </select>
+            <div class="input-group-btn">
+              <a id="teamButton" class="btn btn-primary" href="http://funrun.lrespto.org">Go!</a>
+            </div>
+          </div>
         </form>
         <p>&nbsp;</p>
-        <p><a class="btn btn-primary" href="http://funrun.lrespto.org">GO HERE</a></p>
         <p><strong>The donation drive will end on <u><?php echo $campaignEndDate;?></u></strong></p>
         <div class="row">
 
@@ -108,8 +112,10 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
     $( document ).ready(function() {
         console.log( "ready!" );
         $( "#teamPicker" ).change(function() {
+          console.log("Picked: "+$( "#teamPicker option:selected" ).val());
+          $("#teamButton").attr("href", "http://funrun.lrespto.org/"+$( "#teamPicker option:selected" ).val());
           // similar behavior as an HTTP redirect
-          //window.location.replace("http://funrun.lrespto.org/team/"+$( "#teamPicker option:selected" ).val());
+          //window.location.replace("http://funrun.lrespto.org/"+$( "#teamPicker option:selected" ).val());
         });
 
     });

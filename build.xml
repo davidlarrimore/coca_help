@@ -25,6 +25,19 @@
         <copy file="./config/test-config.ini" tofile="./build/test/config/config.ini" />
         <copy file="./config/prod-config.ini" tofile="./build/production/config/config.ini" />
 
+
+        <filesync
+          sourcedir="data"
+          destinationdir="./build/test/"
+          exclude=".DS_Store"
+          delete="True" />
+
+        <filesync
+          sourcedir="data"
+          destinationdir="./build/production/"
+          exclude=".DS_Store"
+          delete="True" />
+
     </target>
 
     <!-- ============================================  -->

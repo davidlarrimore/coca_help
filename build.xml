@@ -59,7 +59,7 @@
         delete="True" />
 
       <echo msg="Pushing Deploy Script" />
-      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};cd lresptofunrun;sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
+      <exec command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
 
 
       <filesync
@@ -74,7 +74,7 @@
 
 
         <echo msg="Pushing Production Deploy Script" />
-        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};cd lresptofunrun;sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
+        <exec command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};sh -x scripts/deploy.sh > logs/deploy.log 2>&amp;1 &quot;" dir="/" />
 
       <!-- Delete a directory -->
       <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />

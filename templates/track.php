@@ -32,43 +32,44 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body ng-app="myApp">
+<body ng-app="myApp" ng-controller="trackController">
   <div style="height:16px;">&nbsp;</div>
   <div class="container">
     <div class="row">
-      <div class="col-xs-8" style="text-align:center;">
-        <h2 class="superhero">Calling all Superheroes!</h2>
-        <p>The 3rd annual LRES PTO Superhero Fun Run fundraiser has officially begun. want to know how to participate? keep reading.</p>
-      </div>
-      <div class="col-xs-4" style="text-align:center;">
-        <div class="panel panel-info">
-          <div class="panel-body">
-            <div class=”cv-progress-bar”></div>
-               <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
+      <div class="col-xs-9">
+        <div class="row">
+        <div class="col-xs-12" style="text-align:center;">
+          <h2 class="superhero">Calling all Superheroes!</h2>
+          <p>The 3rd annual LRES PTO Superhero Fun Run fundraiser has officially begun. want to know how to participate? keep reading.</p>
+        </div>
+        <div class="row">
+          <div class="col-xs-12" style="text-align:center;">
+            <div style="height:18px;">&nbsp;</div>
+            <div class="">
+              <a href="#" class="btn btn-primary">Create a Fundraiser Page!</a> OR
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Select your Teacher <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                   <li role="menuitem" ng-repeat="team in teams">
+                     <a href="{{settings.campaign_url}}/team/{{team.url}}">{{team.grade}} - {{team.name}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container" ng-controller="trackController">
-    <div class="row">
-      <div class="col-xs-8" style="text-align:center;">
-        <p>
-          <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Select your Teacher <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-               <li role="menuitem" ng-repeat="team in teams">
-                 <a href="{{settings.campaign_url}}/team/{{team.url}}">{{team.grade}} - {{team.name}}</a>
-              </li>
-            </ul>
+      <div class="col-xs-3" style="text-align:center;">
+        <div class="panel panel-info">
+          <div class="panel-heading">Progress Tracker</div>
+          <div class="panel-body" ng-cloak>
+            <div class=""><uib-progressbar class="progress-striped active" max="settings.campaign_funding_goal" value="settings.current_funding_amount" type="{{type}}"><i>{{ pct_of_funding_total }}%</i></uib-progressbar></div>
+            <hr/>
+            <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
           </div>
-        </p>
-        <p>&nbsp;</p>
-        <p><strong>The donation drive will end on <u><?php echo $campaignEndDate;?></u></strong></p>
-        <div class="row">
-
         </div>
       </div>
     </div>
@@ -87,8 +88,12 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
   <!-- ANGULAR LIBRARIES -->
   <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
   <script src="../bower_components/angular-route/angular-route.min.js"></script>
+  <script src="../bower_components/angular-filter/dist/angular-filter.min.js"></script>
   <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-animate.min.js"></script>

@@ -8,7 +8,6 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
 <DOCTYPE html>
 <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
-<html>
   <head>
     <base target="_parent" />
     <meta charset="utf-8">
@@ -66,7 +65,7 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                <li role="menuitem" ng-repeat="team in teams">
-                 <a href="{{settings.campaign_url}}/team/{{team.URL}}">{{team.Name}}'s Team</a>
+                 <a href="{{settings.campaign_url}}/team/{{team.url}}">{{team.grade}} - {{team.name}}</a>
               </li>
             </ul>
           </div>

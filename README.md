@@ -9,6 +9,7 @@ This project started as a fork from another project designed around a single pag
 
 1. phing
 2. Composer
+3. pear (Net_FTP)
 
 
 ##TODO

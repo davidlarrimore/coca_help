@@ -143,7 +143,7 @@ $app->any('/api/teams', function ($request, $response, $args) {
           $teamLabels = $thisRow;
         }else{
           foreach ($teamLabels as $key => $value) {
-            $thisRowAsObjects[$value] = $thisRow[$key];
+            $thisRowAsObjects[clean($value)] = $thisRow[$key];
           }
           array_push($teamData, $thisRowAsObjects);
         }
@@ -199,6 +199,10 @@ $app->any('/api/settings', function ($request, $response, $args) {
 });
 
 
-
+function clean($string) {
+   $string = str_replace(' ', '_', $string); // Replaces all spaces with underscores.
+   $string = preg_replace('/[^A-Za-z0-9\_]/', '', $string); // Removes special chars.
+   return strtolower($string);
+}
 
 $app->run();

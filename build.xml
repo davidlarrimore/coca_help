@@ -45,14 +45,30 @@
     <!-- ============================================  -->
     <target name="dist" depends="build">
 
+      <ftpdeploy
+        host="${test.ftphostname}"
+        port="${test.ftpport}"
+        username="${test.username}"
+        password="${test.password}"
+        dir="${test.documentroot}/config/"
+        clearfirst="true">
+        <fileset dir="./build/test/config/">
+          <include name="*.*"/>
+        </fileset>
+      </ftpdeploy>
 
-      <filesync
-        sourcedir="./build/test/config"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"/>
+      <ftpdeploy
+        host="${test.ftphostname}"
+        port="${test.ftpport}"
+        username="${test.username}"
+        password="${test.password}"
+        dir="${test.documentroot}/data/"
+        clearfirst="true">
+        <fileset dir="./build/test/data/">
+          <include name="*.*"/>
+        </fileset>
+      </ftpdeploy>
 
-      <filesync
-        sourcedir="./build/test/data"
-        destinationdir="${test.username}@${test.hostname}:${test.documentroot}/"/>
 
       <echo msg="Configuring Test" />
       <exec
@@ -61,14 +77,29 @@
         level="debug"
       />
 
-      <filesync
-        sourcedir="./build/production/config"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/" />
+      <ftpdeploy
+        host="${production.ftphostname}"
+        port="${production.ftpport}"
+        username="${production.username}"
+        password="${production.password}"
+        dir="${production.documentroot}/config/"
+        clearfirst="true">
+        <fileset dir="./build/production/config/">
+          <include name="*.*"/>
+        </fileset>
+      </ftpdeploy>
 
-      <filesync
-        sourcedir="./build/production/data"
-        destinationdir="${production.username}@${production.hostname}:${production.documentroot}/"/>
-
+      <ftpdeploy
+        host="${production.ftphostname}"
+        port="${production.ftpport}"
+        username="${production.username}"
+        password="${production.password}"
+        dir="${production.documentroot}/data/"
+        clearfirst="true">
+        <fileset dir="./build/production/data/">
+          <include name="*.*"/>
+        </fileset>
+      </ftpdeploy>
 
         <echo msg="Configuring Production" />
         <exec

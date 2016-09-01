@@ -8,7 +8,6 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
 <DOCTYPE html>
 <!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
-<html>
   <head>
     <base target="_parent" />
     <meta charset="utf-8">
@@ -24,7 +23,8 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" >
+
 
     <!-- Custom CSS -->
     <link href="./static/css/default.css" rel="stylesheet" type="text/css" />
@@ -36,14 +36,14 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
     <![endif]-->
 
 
-  </head>
-<body>
+</head>
+<body ng-app="myApp">
   <div style="height:16px;">&nbsp;</div>
   <div class="container">
     <div class="row">
       <div class="col-xs-8" style="text-align:center;">
         <h2 class="superhero">Calling all Superheroes!</h2>
-        <p><u>Ready to unleash your child's inner superhero?</u> join the Lake Ridge Elementary School (LRES) Parent Teacher Organization (PTO) for the 3rd annual LRES PTO <strong>Superhero fun run!</strong></p>
+        <p>The 3rd annual LRES PTO Superhero Fun Run fundraiser has officially begun. want to know how to participate? keep reading.</p>
       </div>
       <div class="col-xs-4" style="text-align:center;">
         <div class="panel panel-info">
@@ -55,24 +55,21 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
       </div>
     </div>
   </div>
-  <div class="container">
+  <div class="container" ng-controller="trackController">
     <div class="row">
       <div class="col-xs-8" style="text-align:center;">
-        <form class="form">
-          <div class="input-group">
-          <select id="teamPicker" class="form-control">
-            <option value="">Select a Teacher</option>
-            <?php
-              foreach ($team_data as $key => $value) {
-                echo '<option value="team/'.$value['URL'].'">'.$value["Teacher's Name"].'</option>';
-              }
-             ?>
-            </select>
-            <div class="input-group-btn">
-              <a id="teamButton" class="btn btn-primary" href="http://funrun.lrespto.org">Go!</a>
-            </div>
+        <p>
+          <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Select your Teacher <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+               <li role="menuitem" ng-repeat="team in teams">
+                 <a href="{{settings.campaign_url}}/team/{{team.url}}">{{team.grade}} - {{team.name}}</a>
+              </li>
+            </ul>
           </div>
-        </form>
+        </p>
         <p>&nbsp;</p>
         <p><strong>The donation drive will end on <u><?php echo $campaignEndDate;?></u></strong></p>
         <div class="row">
@@ -88,8 +85,31 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
   <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
   <!-- Countdown -->
   <script src="../bower_components/jquery.countdown/dist/jquery.countdown.min.js" type="text/javascript"></script>
+  <!-- AngularJS -->
+  <script src="../bower_components/angular/angular.min.js" type="text/javascript"></script>
+
+
+  <!-- ANGULAR LIBRARIES -->
+  <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="../bower_components/angular-route/angular-route.min.js"></script>
+  <script src="../bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-animate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.6/angular-cookies.min.js"></script>
+
+
+  <!-- AngularJS App -->
+  <script src="./static/js/app.js"></script>
+  <script src="./static/js/controller.js"></script>
+
+
+
   <!-- IE 10 Viewport Bug Fix -->
   <script src="../static/js/ie10-viewport-bug-workaround.js" type="text/javascript"></script>
+
+
 
 
   <script type="text/javascript">

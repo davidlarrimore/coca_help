@@ -1,3 +1,4 @@
+<!doctype html>
 <?php
 #SETTING UP SOME VARIABLES
 $dateIn= strtotime($data['campaign_end_date']);
@@ -5,11 +6,8 @@ $campaignEndDate = date('F, dS',$dateIn);
 $campaignEndDateCountdown = date('Y/m/d',$dateIn);
 
 ?>
-
-<DOCTYPE html>
-<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
-  <head>
-    <base target="_parent" />
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +23,6 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" >
 
-
     <!-- Custom CSS -->
     <link href="./static/css/default.css" rel="stylesheet" type="text/css" />
 
@@ -34,8 +31,6 @@ $campaignEndDateCountdown = date('Y/m/d',$dateIn);
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 <body ng-app="myApp">
   <div style="height:16px;">&nbsp;</div>

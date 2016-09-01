@@ -5,6 +5,7 @@ build/
 config/
 bower_components/
 logs/
+data/
 *.svn
 *.svn-base
 composer.lock

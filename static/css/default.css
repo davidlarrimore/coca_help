@@ -20,6 +20,7 @@ h4 {
 }
 
 body {
+	min-width: 650px;
 	background-color:#fff;
   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
 	color:#666666;

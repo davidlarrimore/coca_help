@@ -1,9 +1,9 @@
 <!doctype html>
 <?php
-   #SETTING UP SOME VARIABLES
-   $dateIn= strtotime($data['campaign_end_date']);
-   $campaignEndDate = date('F, dS',$dateIn);
-   $campaignEndDateCountdown = date('Y/m/d',$dateIn);
+   //SETTING UP SOME VARIABLES
+   $dateIn = strtotime($data['campaign_end_date']);
+   $campaignEndDate = date('F, dS', $dateIn);
+   $campaignEndDateCountdown = date('Y/m/d', $dateIn);
 
    ?>
 <html lang="en">
@@ -31,17 +31,21 @@
       <div style="height:16px;">&nbsp;</div>
       <div class="container">
          <div class="row">
-            <div class="col-xs-9">
+            <div class="col-xs-8 col-sm-9">
                <div class="row">
                   <div class="col-xs-12" style="text-align:center;">
                      <h2 class="superhero">Calling all Superheroes!</h2>
                    <p>The 3rd annual LRES PTO Superhero Fun Run fundraiser has officially begun. want to know how to participate? keep reading.</p>
                   </div>
                </div>
-               <div class="row" style="text-align:center;">
-                  <div class="col-xs-4 col-xs-offset-1"><a href="{{settings.campaign_url}}/signup" class="btn btn-primary">Create a Fundraiser Page!</a></div>
-                  <div class="col-xs-2">OR</div>
-                  <div class="col-xs-4">
+               <div style="height:32px;">&nbsp;</div>
+               <div class="row">
+                  <div class="col-sm-5 col-xs-6" style="text-align:center;">
+                      <a href="{{settings.campaign_url}}/signup" class="btn btn-primary">Create a Fundraiser Page!</a><br/>
+                      <span style="font-size:80%;">Already have an account? <a href="{{settings.campaign_url}}/login">Log in</a></span>
+                  </div>
+                  <div class="col-sm-2 hidden-xs" style="line-height: 34px;text-align:center;">OR</div>
+                  <div class="col-sm-5 col-xs-6" style="text-align:center;">
                      <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Select your Teacher <span class="caret"></span>
@@ -55,7 +59,7 @@
                   </div>
                </div>
             </div>
-            <div class="col-xs-3" style="text-align:center;">
+            <div class="col-xs-4 col-sm-3" style="text-align:center;">
                <div class="panel panel-info">
                   <div class="panel-heading">Progress Tracker</div>
                   <div class="panel-body" ng-cloak>
@@ -63,7 +67,7 @@
                         <uib-progressbar class="progress-striped active" max="settings.campaign_funding_goal" value="settings.current_funding_amount" type="{{type}}"><i>{{ pct_of_funding_total }}%</i></uib-progressbar>
                      </div>
                      <hr/>
-                     <div data-countdown="<?php echo $campaignEndDateCountdown;?>" class="panel-body"></div>
+                     <div data-countdown="<?php echo $campaignEndDateCountdown; ?>" class="panel-body"></div>
                   </div>
                </div>
             </div>

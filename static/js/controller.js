@@ -21,6 +21,7 @@ appControllers.controller('trackController', ['$scope', '$http', '$routeParams',
             $scope.settings.current_funding_amount = 0;
             angular.forEach(donation.data, function(value, key) {
                 $scope.settings.current_funding_amount += Number(value.amount);
+                $scope.settings.number_of_donations ++;
             });
             console.log("Current Donation Amount: " + $scope.settings.current_funding_amount);
             console.log("Campaign Funding Goal: " + $scope.settings.campaign_funding_goal);

@@ -29,7 +29,7 @@
 
       <echo msg="Running configuration commands on Dev" />
       <exec
-        command="export BOWERPHP_TOKEN=${githubApiKey};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install"
+        command="export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install"
         dir="./"
         level="debug"
       />
@@ -94,7 +94,7 @@
 
       <echo msg="Running configuration commands on Test" />
       <exec
-        command="ssh ${test.username}@${test.hostname} &quot;cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install &quot;"
+        command='ssh ${test.username}@${test.hostname} "cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install "'
         dir="/"
         level="debug"
       />
@@ -133,7 +133,7 @@
 
       <echo msg="Running configuration commands on Production" />
       <exec
-        command="ssh ${production.username}@${production.hostname} &quot;cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer install;vendor/beelab/bowerphp/bin/bowerphp install &quot;"
+        command='ssh ${production.username}@${production.hostname} "cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install "'
         dir="/"
         level="debug"
       />

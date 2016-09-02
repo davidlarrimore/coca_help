@@ -41,3 +41,10 @@ body {
     border-color: rgb(221, 223, 226);
     border-radius: 0px 0px 3px 3px;
 }
+
+
+ol.normal li{
+    list-style: decimal inside;
+    display: list-item;
+		padding-bottom:5px;
+}

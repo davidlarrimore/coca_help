@@ -19,10 +19,12 @@ appControllers.controller('trackController', ['$scope', '$http', '$routeParams',
             console.log(donation.data)
             $scope.donations = donation.data;
             $scope.settings.current_funding_amount = 0;
+            $scope.settings.number_of_donations = 0;
             angular.forEach(donation.data, function(value, key) {
                 $scope.settings.current_funding_amount += Number(value.amount);
                 $scope.settings.number_of_donations ++;
             });
+            console.log("Number of donations " + $scope.settings.number_of_donations);
             console.log("Current Donation Amount: " + $scope.settings.current_funding_amount);
             console.log("Campaign Funding Goal: " + $scope.settings.campaign_funding_goal);
             $scope.pct_of_funding_total = Math.round(($scope.settings.current_funding_amount / $scope.settings.campaign_funding_goal) * 100);

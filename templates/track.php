@@ -72,6 +72,41 @@
                </div>
             </div>
          </div>
+        <div style="height:18px;">&nbsp;</div>
+         <div class="row" ng-cloak>
+           <div class="col-md-6">
+             <div class="panel panel-success">
+                <div class="panel-heading" style="text-align:center;">How to win <strong>BIG</strong> for your class!</div>
+                <div class="panel-body" style="font-size:90%;">
+                  <p style="text-align:center;"><span><em>Beat the competition by creating your own fundraising page!</em></span></p>
+                  <p>
+                    <hr/>
+                  <ol class="normal">
+                    <li>Create a fundraiser page for your child by going to <a href="{{settings.campaign_url}}/signup">{{settings.campaign_url}}/signup</a>.</li>
+                    <li>Login to your campaign <a href="{{settings.campaign_url}}/login">{{settings.campaign_url}}/login</a> to customize your donation page, join your classes’ team, and create blog posts.</li>
+                    <li>Share your page with your family, friends, Facebook friends, and twitter followers!</li>
+                  </ol>
+                </p>
+                </div>
+             </div>
+           </div>
+           <div class="col-md-6">
+             <div class="panel panel-success">
+                <div class="panel-heading" style="text-align:center;">Making donation <strong>EASY</strong></div>
+                <div class="panel-body" style="font-size:90%;">
+                  <p style="text-align:center;"><span><em>Sometimes change is hard, we do our best to make it easy!</em></span></p>
+                  <p>
+                    <hr/>
+                  <ol class="normal">
+                    <li>To make a donation, go to <a href="{{settings.campaign_url}}">{{settings.campaign_url}}</a> and click “make a donation”.</li>
+                    <li>Make sure to select the teacher and put in the students name to give them credit!</li>
+                    <li>All donations are made securely thanks to <a target="_blank" href="https://www.causevox.com/">CauseVox</a></li>
+                  </ol>
+                </p>
+                </div>
+             </div>
+           </div>
+         </div>
       </div>
       <!-- jQuery -->
       <script src="../bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -100,7 +135,7 @@
            var $this = $(this), finalDate = $(this).data('countdown');
            $this.countdown(finalDate, function(event) {
              $this.html(event.strftime(''
-         + 'Only <span class="label label-info">%D</span> day%!D left!'));
+         + '<strong>Only <span class="label label-info">%D</span> day%!D left!</strong>'));
            });
          });
       </script>

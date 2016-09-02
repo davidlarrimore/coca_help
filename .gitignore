@@ -13,3 +13,5 @@ composer.lock
 *.ini
 
 lresptofunrun.log
+
+.DS_Store

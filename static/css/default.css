@@ -20,13 +20,13 @@ h4 {
 }
 
 body {
+	min-width: 650px;
 	background-color:#fff;
   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
 	color:#666666;
 }
 
 .container {
-	width:810px;
 }
 
 .block {
@@ -40,4 +40,11 @@ body {
     border-style: solid;
     border-color: rgb(221, 223, 226);
     border-radius: 0px 0px 3px 3px;
+}
+
+
+ol.normal li{
+    list-style: decimal inside;
+    display: list-item;
+		padding-bottom:5px;
 }

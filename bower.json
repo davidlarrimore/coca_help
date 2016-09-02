@@ -15,6 +15,7 @@
         "angular-bootstrap": "*",
         "angular-animate": "*",
         "angular-route": "*",
-        "angular-resource": "*"
+        "angular-resource": "*",
+        "angular-filter": "*"
     }
 }

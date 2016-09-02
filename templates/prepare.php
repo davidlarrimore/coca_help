@@ -1,10 +1,10 @@
 <!doctype html>
 
 <?php
-#SETTING UP SOME VARIABLES
-$dateIn= strtotime($data['campaign_start_date']);
-$campaignStartDate = date('F, dS',$dateIn);
-$campaignStartDateCountdown = date('Y/m/d',$dateIn);
+//SETTING UP SOME VARIABLES
+$dateIn = strtotime($data['campaign_start_date']);
+$campaignStartDate = date('F, dS', $dateIn);
+$campaignStartDateCountdown = date('Y/m/d', $dateIn);
 
 ?>
 <html lang="en">
@@ -51,11 +51,11 @@ $campaignStartDateCountdown = date('Y/m/d',$dateIn);
         <div class="row">
           <div class="col-xs-12">
             <p>&nbsp;</p>
-            <h4><strong>The donation drive will start <u><?php echo $campaignStartDate;?></u></strong></h4>
+            <h4><strong>The donation drive will start <u><?php echo $campaignStartDate; ?></u></strong></h4>
             <div class="row">
               <div class="col-xs-10 col-xs-offset-1">
                 <div class="panel panel-default">
-                  <div data-countdown="<?php echo $campaignStartDateCountdown;?>" class="panel-body" style="font-weight:bold;font-size:1.5em;"></div>
+                  <div data-countdown="<?php echo $campaignStartDateCountdown; ?>" class="panel-body" style="font-weight:bold;font-size:1.5em;"></div>
                 </div>
               </div>
             </div>

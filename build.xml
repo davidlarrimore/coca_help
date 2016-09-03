@@ -11,15 +11,25 @@
         <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="false" />
 
 
-        <echo msg="Preparing ./build directory structure" />
+        <echo msg="Preparing ./build" />
         <mkdir dir="./build" />
-        <mkdir dir="./build/test" />
-        <mkdir dir="./build/test/config" />
-        <mkdir dir="./build/test/data" />
-        <mkdir dir="./build/production" />
-        <mkdir dir="./build/production/config" />
-        <mkdir dir="./build/production/data" />
+        <!-- Deploy to environments -->
+        <foreach list="${environments}" param="environment" target="prepare-deploy" delimiter="," />
     </target>
+
+
+
+    <!-- ============================================  -->
+    <!--  Target: PREPARE-DEPLOY (FOREACH)             -->
+    <!-- ============================================  -->
+    <target name="prepare-deploy">
+      <echo msg="Preparing ${environment} build directory structure" />
+      <mkdir dir="./build/${environment}" />
+      <mkdir dir="./build/${environment}/config" />
+      <mkdir dir="./build/${environment}/data" />
+    </target>
+
+
 
     <!-- ============================================  -->
     <!-- Target: build                                 -->
@@ -27,119 +37,100 @@
     <target name="build" depends="prepare">
 
 
-      <echo msg="Running configuration commands on Dev" />
-      <exec
-        command="export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install"
-        dir="./"
-        level="debug"
-      />
+      <echo msg="Running configuration commands on local" />
+      <exec command="git pull" dir="./" level="debug" />
+      <exec command="composer update" dir="./" level="debug" />
+      <exec command="composer install" dir="./" level="debug" />
+      <exec command="export BOWERPHP_TOKEN=${githubApiKey}; vendor/beelab/bowerphp/bin/bowerphp install" dir="./" level="debug" />
 
-
-
-        <echo msg="Copying config files to appropriate directory..." />
-        <copy file="./config/test-config.ini" tofile="./build/test/config/config.ini" />
-
-        <copy file="./config/prod-config.ini" tofile="./build/production/config/config.ini" />
-
-        <filesync
-          sourcedir="data"
-          destinationdir="./build/test/"
-          exclude=".DS_Store"
-          delete="True" />
-
-        <filesync
-          sourcedir="data"
-          destinationdir="./build/production/"
-          exclude=".DS_Store"
-          delete="True" />
+      <!-- Deploy to environments -->
+      <foreach list="${environments}" param="environment" target="build-deploy" delimiter="," />
 
     </target>
+
+
+
+    <!-- ============================================  -->
+    <!--  Target: BUILD-DEPLOY  (FOREACH)              -->
+    <!-- ============================================  -->
+    <target name="build-deploy">
+
+      <echo msg="Copying ${environment} config files to appropriate directory..." />
+      <copy file="./config/${environment}-config.ini" tofile="./build/${environment}/config/config.ini" />
+
+      <echo msg="Copying ${environment} data files to appropriate directory..." />
+      <filesync
+        sourcedir="data"
+        destinationdir="./build/${environment}/"
+        exclude=".DS_Store"
+        delete="True" />
+
+    </target>
+
+
+
 
     <!-- ============================================  -->
     <!-- (DEFAULT)  Target: dist                       -->
     <!-- ============================================  -->
     <target name="dist" depends="build">
 
-      <echo msg="pushing config files to test server" />
-      <ftpdeploy
-        passive="true"
-        level="verbose"
-        host="${test.ftphostname}"
-        port="${test.ftpport}"
-        username="${test.username}"
-        password="${test.password}"
-        dir="${test.documentroot}/config/"
-        clearfirst="true">
-        <fileset dir="./build/test/config/">
-          <include name="*.*"/>
-          <exclude name=".DS_Store"/>
-        </fileset>
-      </ftpdeploy>
-
-      <echo msg="pushing data files to test server" />
-      <ftpdeploy
-        passive="true"
-        level="verbose"
-        host="${test.ftphostname}"
-        port="${test.ftpport}"
-        username="${test.username}"
-        password="${test.password}"
-        dir="${test.documentroot}/data/"
-        clearfirst="true">
-        <fileset dir="./build/test/data/">
-          <include name="*.*"/>
-          <exclude name=".DS_Store"/>
-        </fileset>
-      </ftpdeploy>
-
-      <echo msg="Running configuration commands on Test" />
-      <exec
-        command='ssh ${test.username}@${test.hostname} "cd ${test.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install "'
-        dir="/"
-        level="debug"
-      />
-
-      <echo msg="pushing config files to production server" />
-      <ftpdeploy
-        passive="true"
-        host="${production.ftphostname}"
-        port="${production.ftpport}"
-        username="${production.username}"
-        password="${production.password}"
-        dir="${production.documentroot}/config/"
-        level="verbose"
-        clearfirst="true">
-        <fileset dir="./build/production/config/">
-          <include name="*.*"/>
-          <exclude name=".DS_Store"/>
-        </fileset>
-      </ftpdeploy>
-
-      <echo msg="pushing data files to production server" />
-      <ftpdeploy
-        passive="true"
-        level="verbose"
-        host="${production.ftphostname}"
-        port="${production.ftpport}"
-        username="${production.username}"
-        password="${production.password}"
-        dir="${production.documentroot}/data/"
-        clearfirst="true">
-        <fileset dir="./build/production/data/">
-          <include name="*.*"/>
-          <exclude name=".DS_Store"/>
-        </fileset>
-      </ftpdeploy>
-
-      <echo msg="Running configuration commands on Production" />
-      <exec
-        command='ssh ${production.username}@${production.hostname} "cd ${production.documentroot};export BOWERPHP_TOKEN=${githubApiKey};git pull;composer update;composer install;vendor/beelab/bowerphp/bin/bowerphp install "'
-        dir="/"
-        level="debug"
-      />
+      <!-- Deploy to environments -->
+      <foreach list="${environments}" param="environment" target="dist-deploy" delimiter="," />
 
       <!-- Delete a directory -->
       <delete dir="./build" includeemptydirs="true" verbose="true" failonerror="true" />
 
     </target>
+
+
+
+    <!-- ============================================  -->
+    <!--  Target: DIST-DEPLOY     (FOREACH)            -->
+    <!-- ============================================  -->
+    <target name="dist-deploy">
+      <echo msg="pushing config files to ${environment} server" />
+      <ftpdeploy
+        passive="true"
+        level="verbose"
+        host="${${environment}.ftphostname}"
+        port="${${environment}.ftpport}"
+        username="${${environment}.username}"
+        password="${${environment}.password}"
+        dir="${${environment}.documentroot}/config/"
+        clearfirst="true">
+        <fileset dir="./build/${environment}/config/">
+          <include name="*.*"/>
+          <exclude name=".DS_Store"/>
+        </fileset>
+      </ftpdeploy>
+
+      <echo msg="pushing data files to ${environment} server" />
+      <ftpdeploy
+        passive="true"
+        level="verbose"
+        host="${${environment}.ftphostname}"
+        port="${${environment}.ftpport}"
+        username="${${environment}.username}"
+        password="${${environment}.password}"
+        dir="${${environment}.documentroot}/data/"
+        clearfirst="true">
+        <fileset dir="./build/${environment}/data/">
+          <include name="*.*"/>
+          <exclude name=".DS_Store"/>
+        </fileset>
+      </ftpdeploy>
+
+      <echo msg="Running configuration commands on ${environment}" />
+
+      <ssh
+        username="${${environment}.username}"
+        host="${${environment}.hostname}"
+        password="${${environment}.password}"
+        command="cd ${${environment}.documentroot} && sh scripts/deploy.sh ${githubApiKey}"
+      />
+
+    </target>
+
+
 </project>

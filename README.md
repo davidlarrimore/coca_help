@@ -5,13 +5,31 @@ This single page application is used to support the LRES PTO Fun Run Facebook Ap
 
 This project started as a fork from another project designed around a single page PHP Slim application to be put on shared hosting. It has now matured to include Test Automation and Continuous Integration principles.
 
+
+
+##Setup
+
+This project requires configuration files (See below) and data files (pulled from CauseVox).
+
+
+
+##Configuration
+
+This project requires configuration files (See below) and data files (pulled from CauseVox).
+
+
+
+
+
 ##Dependencies
 
 1. PHP 5.6 or greater
-2. phing
-3. Composer
-4. pear (Net_FTP)
-5. bowerphp
+2. Git
+3. phing
+4. Composer
+5. pear (Net_FTP)
+6. bowerphp
+
 
 
 ##Run locally
@@ -23,20 +41,31 @@ URL:[http://localhost:8000/](http://localhost:8000/)
 
 
 
-
 ##CI/CD (Phing) Configuration
-This was written using the Dreamhost shared platform, which is cheap and easy. Once you have setup your domain/subdomain, you can setup continuous integration leveraging git and phing.
+The Phing configuration is dynamic and will support any amount of environments. It requires SSH and FTP access to the server. I'm still in the initial phases, but essentially all you have to do is do a base setup as follows:
 
 
-1. clone branch to remote location that you want to deploy to. For example, I cloned "Dev" to my testfunrunfbapp directory (I know...you say dev, but it is test....yeah yeah.....). So I just ran:
+1. clone branch to remote location that you want to deploy to. For example, I cloned "test" to my testfunrunfbapp directory but it is test....yeah yeah.....). So I just ran some shell magic to initialize the environment.
 
 
     git clone https://github.com/davidlarrimore/lresptofunrun.git ./
     git checkout dev  # <-- name of the branch I wanted
+    composer update # <-- for some reason, phing couldn't run this the first time.
+    composer install # <-- for some reason, phing couldn't run this the first time.
 
+2. Setup the build.properties file under "config" folder
 
-2. come up with a name for that environment, and be consistent! (I consistently chose dev, which is probably confusing)
+environments=test,production
 
+  test.hostname=hostname for SSH
+  test.ftphostname=hostname for FTP
+  test.ftpport=21
+  test.username=username
+  test.password=super_secure_password
+  test.documentroot=testfunrunfbapp.lrespto.org
+  test.repositoryname=test
+
+  githubApiKey=longstring
 
 
 

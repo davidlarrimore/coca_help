@@ -123,12 +123,7 @@
 
       <echo msg="Running configuration commands on ${environment}" />
 
-      <ssh
-        username="${${environment}.username}"
-        host="${${environment}.hostname}"
-        password="${${environment}.password}"
-        command="cd ${${environment}.documentroot} && sh scripts/deploy.sh ${githubApiKey}"
-      />
+    <exec command="ssh ${${environment}.username}@${${environment}.hostname} 'cd ${${environment}.documentroot}; sh scripts/deploy.sh ${githubApiKey}'" dir="./" level="debug" />
 
     </target>
 

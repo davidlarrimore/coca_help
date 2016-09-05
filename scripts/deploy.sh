@@ -6,7 +6,7 @@ export BOWERPHP_TOKEN="$1"
 
 export PATH=/usr/local/php56/bin:$PATH
 
-export PATH=/home/davlar33/.php/composer:$PATH
+export PATH=$(pwd)/.php/composer:$PATH
 
 #git pull
 

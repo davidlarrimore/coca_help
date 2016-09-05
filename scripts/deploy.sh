@@ -2,15 +2,11 @@
 
 . "$HOME/.bashrc"
 
-SSHUsername="$1"
-BowerPHPToken="$2"
-
-
-export BOWERPHP_TOKEN=$BowerPHPToken
+export BOWERPHP_TOKEN="$1"
 
 export PATH=/usr/local/php56/bin:$PATH
 
-export PATH=/home/$SSHUsername/.php/composer:$PATH
+export PATH=$(pwd)/.php/composer:$PATH
 
 #git pull
 

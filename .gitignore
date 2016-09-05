@@ -9,6 +9,9 @@ data/
 *.svn
 *.svn-base
 composer.lock
+/vendor/
+/logs/*
+!/logs/README.md
 
 *.ini
 

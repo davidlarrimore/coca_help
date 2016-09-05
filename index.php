@@ -1,10 +1,19 @@
 <?php
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+
+if (PHP_SAPI == 'cli-server') {
+    // To help the built-in PHP dev server, check if the request was actually for
+    // something which should probably be served as a static file
+    $url = parse_url($_SERVER['REQUEST_URI']);
+    $file = __DIR__.$url['path'];
+    if (is_file($file)) {
+        return false;
+    }
+}
 
 require __DIR__.'/vendor/autoload.php';
-require 'vendor/autoload.php';
+
+session_start();
 
 date_default_timezone_set('America/New_York');
 
@@ -31,222 +40,23 @@ $mail->isHTML(true);                                  // Set email format to HTM
 /**************
 * CONFIG FILE *
 **************/
-$config_array = parse_ini_file('config/config.ini', true);
+$settings = require __DIR__.'/config/settings.php';
 
 /****************
 * SLIM APP FILE *
 ****************/
 $app = new \Slim\App(array(
     'mode' => $config_array['app']['mode'],
-    'settings' => $config_array,
+    'settings' => $settings['settings'],
 ));
 
-// Get container
-$container = $app->getContainer();
+// Set up dependencies
+require __DIR__.'/src/dependencies.php';
 
-// Register component on container
-$container['view'] = function ($container) {
-    return new \Slim\Views\PhpRenderer('templates/');
-};
+// Register middleware
+require __DIR__.'/src/middleware.php';
 
-// monolog
-$container['logger'] = function ($c) {
-    $settings = $c->get('settings');
-    $logger = new Monolog\Logger($settings['app']['name']);
-    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new Monolog\Handler\StreamHandler('./logs/'.$settings['app']['name'].'.log', Monolog\Logger::DEBUG));
-    $logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG)); // <<< uses a stream
-
-    return $logger;
-};
-
-/*****************
-*     ROUTES     *
-*****************/
-$app->any('/', function ($request, $response, $args) {
-    $campaignStartDateString = strtotime($this->get('settings')['campaign']['campaign_start_date']);
-    $campaignStartDate = date('Y-m-d', $campaignStartDateString);
-
-    $campaignEndDateString = strtotime($this->get('settings')['campaign']['campaign_end_date']);
-    $campaignEndDate = date('Y-m-d', $campaignEndDateString);
-
-    $todaysDate = date('Y-m-d');
-
-    $this->logger->addInfo('Start Date: '.$campaignStartDate);
-    $this->logger->addInfo('End Date: '.$campaignEndDate);
-    $this->logger->addInfo('Todays Date: '.$todaysDate);
-  //echo($todaysDate);
-
-  $data = [
-            'todays_date' => $todaysDate,
-            'campaign_url' => $this->get('settings')['campaign']['url'],
-            'campaign_start_date' => $campaignStartDate,
-            'campaign_end_date' => $campaignEndDate,
-          ];
-
-  //TODO: Make sure that only data necessary is going to the particular views....I.E. File Data
-  if ($todaysDate > $campaignEndDate) {
-      $theView = 'closeout.php';
-  } elseif ($todaysDate > $campaignStartDate) {
-      $theView = 'track.php';
-  } else {
-      $theView = 'prepare.php';
-  }
-
-    $this->logger->addInfo('View: '.$theView);
-
-    return $this->view->render($response, $theView, $data);
-});
-
-$app->any('/api/teams', function ($request, $response, $args) {
-    $this->logger->addInfo('API Teams');
-
-    $dir = new DirectoryIterator('data');
-    foreach ($dir as $fileinfo) {
-        if (!$fileinfo->isDot()) {
-            $thisFileName = $fileinfo->getFilename();
-            if (fnmatch('Teams*.csv', $thisFileName)) {
-                //$app->logger->addInfo("Found Team Data File: ".$thisFileName);
-          $teamFileName = $fileinfo->getFilename();
-            }
-        }
-    }
-
-    if (is_null($teamFileName)) {
-        //$this->logger->addError("Could not find Team File");
-    }
-
-    $file = fopen('./data/'.$teamFileName, 'r');
-    $counter = 0;
-    $teamData = [];
-    $thisRow;
-    $teamLabels;
-
-    while (!feof($file)) {
-        $thisRow = fgetcsv($file);
-      //Skip Empty Rows
-      if (!empty($thisRow)) {
-          $thisRowAsObjects = [];
-          if ($counter == 0) {
-              $teamLabels = $thisRow;
-          } else {
-              foreach ($teamLabels as $key => $value) {
-                  $thisRowAsObjects[clean($value)] = trim($thisRow[$key]);
-              }
-              array_push($teamData, $thisRowAsObjects);
-          }
-      }
-        ++$counter;
-    }
-    fclose($file);
-  //$logger->info("Test");
-
-  $data = ['author' => 'davidlarrimore@gmail.com', 'version' => .1, 'data' => $teamData];
-    $newResponse = $response->withHeader('Content-type', 'application/json');
-    $newResponse = $newResponse->withJson($data);
-
-    return $newResponse;
-});
-
-$app->any('/api/donations', function ($request, $response, $args) {
-    $this->logger->addInfo('API Donations');
-
-    $dir = new DirectoryIterator('data');
-    foreach ($dir as $fileinfo) {
-        if (!$fileinfo->isDot()) {
-            $thisFileName = $fileinfo->getFilename();
-            if (fnmatch('Donations*.csv', $thisFileName)) {
-                //$app->logger->addInfo("Found Team Data File: ".$thisFileName);
-          $teamFileName = $fileinfo->getFilename();
-            }
-        }
-    }
-
-    if (is_null($teamFileName)) {
-        //$this->logger->addError("Could not find Team File");
-    }
-
-    $file = fopen('./data/'.$teamFileName, 'r');
-    $counter = 0;
-    $teamData = [];
-    $thisRow;
-    $teamLabels;
-
-    while (!feof($file)) {
-        $thisRow = fgetcsv($file);
-      //Skip Empty Rows
-
-      if (!empty($thisRow)) {
-          $thisRowAsObjects = [];
-          if ($counter == 0) {
-              $teamLabels = $thisRow;
-          } else {
-              foreach ($teamLabels as $key => $value) {
-                  $labelName = clean($value);
-                  $rowData = trim($thisRow[$key]);
-                  $this->logger->addInfo('Row #'.$counter.', Column #'.$key.' : '.$value.' - '.trim($thisRow[$key]));
-
-                  if (in_array($labelName, array('amount', 'donated_at', 'students_name', 'teachers_name'))) {
-                      if (strcmp($labelName, 'teachers_name')) {
-                          $this->logger->addInfo($labelName.' - '.$rowData);
-                          $thisRowAsObjects['grade'] = substr(trim($thisRow[$key - 1]), 0, strpos(trim($thisRow[$key - 1]), ' - '));
-                          $thisRowAsObjects['name'] = substr(trim($thisRow[$key - 1]), strpos(trim($thisRow[$key - 1]), ' - ') + 3, strlen(trim($thisRow[$key - 1])))."'s Class";
-                      }
-                      $thisRowAsObjects[$labelName] = $rowData;
-                  }
-              }
-              array_push($teamData, $thisRowAsObjects);
-          }
-      }
-        ++$counter;
-    }
-    fclose($file);
-  //$logger->info("Test");
-
-  $data = ['author' => 'davidlarrimore@gmail.com', 'version' => .1, 'data' => $teamData];
-    $newResponse = $response->withHeader('Content-type', 'application/json');
-    $newResponse = $newResponse->withJson($data);
-
-    return $newResponse;
-});
-
-$app->any('/api/settings', function ($request, $response, $args) {
-    $this->logger->addInfo('API Settings');
-
-    $campaignStartDateString = strtotime($this->get('settings')['campaign']['campaign_start_date']);
-    $campaignStartDate = date('Y-m-d', $campaignStartDateString);
-
-    $campaignEndDateString = strtotime($this->get('settings')['campaign']['campaign_end_date']);
-    $campaignEndDate = date('Y-m-d', $campaignEndDateString);
-
-    $todaysDate = date('Y-m-d');
-
-    $this->logger->addInfo('Start Date: '.$campaignStartDate);
-    $this->logger->addInfo('End Date: '.$campaignEndDate);
-    $this->logger->addInfo('Todays Date: '.$todaysDate);
-  //echo($todaysDate);
-
-  $data = ['author' => 'davidlarrimore@gmail.com',
-           'version' => .1,
-            'data' => [
-            'todays_date' => $todaysDate,
-            'campaign_url' => $this->get('settings')['campaign']['url'],
-            'campaign_funding_goal' => $this->get('settings')['campaign']['campaign_funding_goal'],
-            'campaign_start_date' => $campaignStartDate,
-            'campaign_end_date' => $campaignEndDate,
-          ], ];
-
-    $newResponse = $response->withHeader('Content-type', 'application/json');
-    $newResponse = $newResponse->withJson($data);
-
-    return $newResponse;
-});
-
-function clean($string)
-{
-    $string = str_replace(' ', '_', $string); // Replaces all spaces with underscores.
-   $string = preg_replace('/[^A-Za-z0-9\_]/', '', $string); // Removes special chars.
-   return strtolower($string);
-}
+// Register routes
+require __DIR__.'/src/routes.php';
 
 $app->run();

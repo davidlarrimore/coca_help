@@ -56,7 +56,7 @@
     <target name="build-deploy">
 
       <echo msg="Copying ${environment} config files to appropriate directory..." />
-      <copy file="./config/${environment}-config.ini" tofile="./build/${environment}/config/config.ini" />
+      <copy file="./config/${environment}-settings.php" tofile="./build/${environment}/config/settings.php" />
 
       <echo msg="Copying ${environment} data files to appropriate directory..." />
       <filesync

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. "$HOME/.bashrc"
-
 export BOWERPHP_TOKEN="$1"
 
 export PATH=/usr/local/php56/bin:$PATH
